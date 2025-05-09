@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1 class="mb-4">Admin Panel</h1>
+    
+    <div class="card">
+        <div class="card-header">
+            <h2>User Management</h2>
+        </div>
+        <div class="card-body">
+            <table class="table table-striped">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>ID</th>
+                        <th>Username</th>
+                        <th>Role</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for user in users %}
+                        <tr>
+                            <td>{{ user.id }}</td>  <!-- Accessing attributes directly -->
+                            <td>{{ user.username }}</td>
+                            <td>
+                                <span class="badge 
+                                    {% if user.role == 'admin' %}bg-danger
+                                    {% else %}bg-primary
+                                    {% endif %}">
+                                    {{ user.role }}
+                                </span>
+                            </td>
+                            <td>
+                                <a href="{{ url_for('admin.edit_user', user_id=user.id) }}" 
+                                   class="btn btn-sm btn-warning">Edit</a>
+                                <a href="{{ url_for('admin.delete_user', user_id=user.id) }}" 
+                                   class="btn btn-sm btn-danger"
+                                   onclick="return confirm('Are you sure?')">Delete</a>
+                            </td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="4" class="text-center">No users found</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}
